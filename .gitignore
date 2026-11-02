@@ -8,12 +8,22 @@ camera_test
 camera2
 
 # ── 运行产物 ────────────────────────────────────
-test_v4l2.jpg
 __pycache__/
 *.py[cod]
 .venv/
 venv/
 env/
+
+# ── 测试图像（涉及测试者隐私，严禁提交）──────────
+# 链路运行时会生成这些文件，画面含人脸，不得纳入仓库。
+*.jpg
+*.jpeg
+*.png
+*.bmp
+test_v4l2.jpg
+board_photo.jpg
+ai_result.jpg
+shot_*.jpg
 
 # ── 编辑器 / 系统 ───────────────────────────────
 .vscode/

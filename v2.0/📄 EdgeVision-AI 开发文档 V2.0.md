@@ -423,15 +423,14 @@ finally:
 
 ### 7.2 实测样例
 
-**① 板端原始帧**（`board_photo.jpg`，1920×1080，V4L2 直出 MJPEG）
+> 出于隐私考虑，测试图像未纳入仓库。V2.0 的实时画面由 `cv2.imshow` 呈现，代码本身不向磁盘保存任何帧，因此仓库内本就不含 V2.0 的输出图。以下为画面规格说明：
 
-![板端原始帧](board_photo.jpg)
+| 画面 | 产生方式 | 规格 | 说明 |
+| --- | --- | --- | --- |
+| 实时检测窗口 | `cv2.imshow("EdgeVision - Real-time Video", annotated_frame)` | 1920×1080 缩放至窗口、左上角叠加 FPS | 每帧实时绘制，不存在于磁盘 |
+| 带框帧数据 | `results[0].plot()` 返回的 ndarray | 1920×1080 BGR | 供 `imshow` 使用的内存对象 |
 
-**② 云端 YOLOv8n 检测结果**（`ai_result.jpg`，1920×1080，标注框 + 类别 + 置信度）
-
-![YOLOv8n 检测结果](ai_result.jpg)
-
-> 📌 **说明**：V2.0 的实时画面由 `cv2.imshow` 呈现，代码本身不保存任何帧到磁盘，因此上两张图是链路的**代表性单帧样例**（与 V1.0 目录下的同名文件内容一致）。
+如需留档，可在 `test.py` 的 `cv2.imshow` 前追加一行 `cv2.imwrite(f"shot_{frame_count}.jpg", annotated_frame)`，注意此类截图可能包含人像，请勿提交到公开仓库。
 
 ### 7.3 端到端延迟构成
 
@@ -505,11 +504,10 @@ V2.0 (当前)                 V3.0                            V3.5
 v2.0/
 ├── camera2.c                        端侧：V4L2 4缓冲采集 + 帧协议发送 + 收令控灯（C）
 ├── test.py                          云端：长度协议收帧 + 内存解码 + YOLOv8 推理 + 回令（Python）
-├── yolov8n.pt                       YOLOv8 Nano COCO 预训练权重（约 6.2MB，与 v1.0 相同）
-├── board_photo.jpg                  链路的代表性单帧样例（1920×1080）
-├── ai_result.jpg                    云端检测结果样例（1920×1080）
 └── 📄 EdgeVision-AI 开发文档 V2.0.md  本文档
 ```
+
+> **说明**：`yolov8n.pt` 两个版本内容完全相同，仓库中只保留 `v1.0/yolov8n.pt` 一份作为真相源，运行 V2.0 前请复制过去（见 README）。测试图像因涉及隐私未纳入仓库，V2.0 代码本身也不向磁盘保存帧。
 
 **模块边界（V3.0 拆解目标）**
 

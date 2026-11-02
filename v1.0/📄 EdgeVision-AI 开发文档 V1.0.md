@@ -225,13 +225,14 @@ results[0].save('ai_result.jpg')    # 另存带标注框的结果图
 
 ### 7.2 实测样例
 
-**① 板端原始抓拍**（`board_photo.jpg`，1920×1080，V4L2 直出 MJPEG）
+> 出于隐私考虑，测试图像（`board_photo.jpg` / `ai_result.jpg`）未纳入仓库。以下为实测产物的规格说明：
 
-![板端原始抓拍](board_photo.jpg)
+| 产物 | 产生位置 | 规格 | 说明 |
+| --- | --- | --- | --- |
+| `board_photo.jpg` | 云端 `f.write(total_data)` 落盘 | 1920×1080，约 186KB | V4L2 直出的 MJPEG 原始帧，未做任何处理 |
+| `ai_result.jpg` | `results[0].save()` 输出 | 1920×1080，约 388KB | 叠加边界框、类别标签与置信度 |
 
-**② 云端 YOLOv8n 识别结果**（`ai_result.jpg`，1920×1080，标注框 + 类别 + 置信度）
-
-![YOLOv8n 识别结果](ai_result.jpg)
+如需复现这两个文件，按 §10 的复现步骤跑一次完整链路即可生成。
 
 ### 7.3 性能小结
 
@@ -287,10 +288,13 @@ results[0].save('ai_result.jpg')    # 另存带标注框的结果图
 v1.0/
 ├── camera_test.c                    端侧：V4L2 采集 + TCP 发送（C）
 ├── test.py                          云端：TCP 接收 + YOLOv8n 推理（Python）
-├── yolov8n.pt                       YOLOv8 Nano COCO 预训练权重（约 6.2MB）
-├── board_photo.jpg                  云端落盘的板端原始抓拍（实测样例）
-├── ai_result.jpg                    云端推理输出的标注结果图（实测样例）
+├── yolov8n.pt                       YOLOv8 Nano COCO 预训练权重（约 6.2MB，两版共用）
 └── 📄 EdgeVision-AI 开发文档 V1.0.md  本文档
+
+运行后自动生成（已被 .gitignore 排除，不纳入仓库）：
+├── test_v4l2.jpg                    板端本地落盘的原始抓拍
+├── board_photo.jpg                  云端落盘的原始帧
+└── ai_result.jpg                    云端标注结果图
 ```
 
 ---
